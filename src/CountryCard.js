@@ -5,8 +5,15 @@ export default function CountryCard({ country }) {
     <div className="card">
       <img className="country-img" src={country.flag} alt={country.name} />
       <h3>{country.name}</h3>
-      <p>Population: {country.population.toLocaleString()}</p>
-      <p>Region: {country.region}</p>
+      <p>
+        <b>Population</b>: {country.population.toLocaleString()}
+      </p>
+      <p>
+        <b>Region</b>: {country.region}
+      </p>
+      <p>
+        <b>Capital</b>: {country.capital}
+      </p>
     </div>
   );
 }

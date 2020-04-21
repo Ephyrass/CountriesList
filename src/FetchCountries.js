@@ -35,36 +35,40 @@ export default function FetchCountries() {
   return (
     <div>
       <h1>Countries list</h1>
-
-      <input
-        type="text"
-        className="input"
-        placeholder="Search a country"
-        value={input}
-        onChange={e => setInput(e.target.value)}
-      />
-      <label>Filter by Population</label>
-      <input
-        type="checkbox"
-        name="population"
-        checked={sortByPopulation}
-        onChange={onChangeCheckbox}
-      />
-      <select
-        className="region-select"
-        value={region}
-        onChange={e => setRegion(e.target.value)}
-      >
-        <option defaultValue hidden>
-          Filter by Region
-        </option>
-        <option>Asie</option>
-        <option>Africa</option>
-        <option>Americas</option>
-        <option>Europe</option>
-        <option>Oceania</option>
-        <option>Polar</option>
-      </select>
+      <div className="filter">
+        <input
+          type="text"
+          className="input"
+          placeholder="Search a country"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+        />
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <label>Filter by Population</label>
+          <input
+            style={{ margin: "0 5px" }}
+            type="checkbox"
+            name="population"
+            checked={sortByPopulation}
+            onChange={onChangeCheckbox}
+          />
+          <select
+            className="region-select"
+            value={region}
+            onChange={e => setRegion(e.target.value)}
+          >
+            <option defaultValue hidden>
+              Filter by Region
+            </option>
+            <option>Asia</option>
+            <option>Africa</option>
+            <option>Americas</option>
+            <option>Europe</option>
+            <option>Oceania</option>
+            <option>Polar</option>
+          </select>
+        </div>
+      </div>
       <div className="cards">
         {countries
           .filter(filterByRegion)
