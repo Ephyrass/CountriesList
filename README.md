@@ -1,2 +1,0 @@
-# CountriesList
-Created with CodeSandbox
