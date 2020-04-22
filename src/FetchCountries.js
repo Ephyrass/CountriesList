@@ -1,19 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import axios from "axios";
 import CountryCard from "./CountryCard";
 
+const initialState = {
+  countries: [],
+  input: "",
+  sortByPopulation: false,
+  region: ""
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "field":
+      return { ...state, [action.field]: action.value };
+    case "fetch_Succes":
+      return {
+        ...state,
+        countries: action.payload
+      };
+    default:
+      return state;
+  }
+};
+
 export default function FetchCountries() {
-  const [countries, setCountries] = useState([]);
-  const [input, setInput] = useState("");
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { countries, region, input } = state;
   const [sortByPopulation, setSortByPopulation] = useState(false);
-  const [region, setRegion] = useState("");
 
   useEffect(() => {
     axios("https://restcountries.eu/rest/v2/all").then(res => {
-      setCountries(res.data);
+      dispatch({ type: "fetch_Succes", payload: res.data });
     });
   }, []);
-
+  console.log(countries);
   const filterByLetter = countries => {
     return countries.name.toLowerCase().includes(input.toLowerCase());
   };
@@ -41,7 +61,9 @@ export default function FetchCountries() {
           className="input"
           placeholder="Search a country"
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={e =>
+            dispatch({ type: "field", field: "input", value: e.target.value })
+          }
         />
         <div style={{ display: "flex", alignItems: "center" }}>
           <label>Filter by Population</label>
@@ -55,7 +77,13 @@ export default function FetchCountries() {
           <select
             className="region-select"
             value={region}
-            onChange={e => setRegion(e.target.value)}
+            onChange={e =>
+              dispatch({
+                type: "field",
+                field: "region",
+                value: e.target.value
+              })
+            }
           >
             <option defaultValue hidden>
               Filter by Region
